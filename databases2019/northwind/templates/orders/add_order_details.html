@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1>Add products to order no. {{ order_id }}</h1>
+
+<div>
+<form action="/orders/add_order_details/{{order_id}}/" method="post">
+	{% csrf_token %}
+	{{ order_details_form.management_form }}
+<table>
+<div class="form-group col-md-11">
+	{{ order_details_form.as_p }}
+</div>
+</table>
+
+	<input type="submit" name="more_products" value="Add more products" class="btn btn-primary col-md-3" />
+	<input type="submit" name="submit" value="Submit" class="btn btn-primary col-md-3" />
+</form>
+</div>
+
+{% endblock content %}

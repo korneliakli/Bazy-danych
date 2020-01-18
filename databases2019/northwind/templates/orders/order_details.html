@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Details for order no. {{ orders.order_id }}</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Customer</th>
+      <th scope="col">Employee</th>
+      <th scope="col">Order Date</th>
+      <th scope="col">Ship via</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+            <td>{{ orders.customer_id.company_name }}</td>
+            <td>{{ orders.employee_id.first_name }} {{ orders.employee_id.last_name }}</td>
+            <td>{{ orders.order_date }}</td>
+            <td>{{ orders.ship_via }}</td>
+	    </tr>
+  </body>
+</table>
+
+<h2>Ordered Products:</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Product Name</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Unit Cost</th>
+      <th scope="col">Discount</th>
+      <th scope="col">Total Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in orders.orderdetails_set.all %}
+    <tr>
+	    {% load order_extras %}
+        <td>{{ item.product_id.product_name }}</td>
+	      <td>{{ item.quantity }} </td>
+        <td>{{ item.unit_price|floatformat:2 }} EUR</td>
+	      <td>{% multiply item.discount 100 %} %</td>
+	      <td>{% substract 1 item.discount as discountFactor %} 
+        {% multiply_discount item.quantity item.unit_price discountFactor %} EUR</ td> 
+	    </tr>
+    {% endfor %}
+	    <tr>
+		    <td>Freight cost</td>
+		    
+		    <td>{{ orders.freight|floatformat:2 }} EUR</td>
+	    </tr>
+	    <tr>
+		    <td><b>TOTAL<b></td>
+		   
+		    <td><b>{{ view.totalPrice|floatformat:2 }} EUR</td></b>
+	    </tr>
+  </body>
+</table>
+
+
+{% endblock content %}

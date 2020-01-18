@@ -1,0 +1,29 @@
+
+{% extends  "base.html" %}
+{% block content %}
+
+<h2>Report of total value of {{ category }} category sold products </h2>
+<br>
+
+<table>
+    <col width='130'>
+	<tr>
+        
+        <th>Product</th>
+        <th>Total value</th>
+        
+	</tr>
+
+{% for r in results %}
+<tr>
+	<td>
+		{{ r.product_name }}
+    </td>
+	<td>
+		{{ r.product_value|floatformat:2 }}
+    </td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock content %}
